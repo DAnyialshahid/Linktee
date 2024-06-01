@@ -21,11 +21,15 @@ export const authSlice = createSlice({
   initialState,
 
   reducers: {
-    logout: (state) => {
+    logout: (state, action) => {
       state.is_login = false;
       state.user_details = {};
       storeToLocalStorage('user', null)
-      storeToLocalStorage('is_login', false)
+      storeToLocalStorage('is_login', false);
+
+      // if(action.payload.cb){
+      //   action.payload.cb();
+      // }
     },
     logout2: (state) => {
       state.is_login = false;
