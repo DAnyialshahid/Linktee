@@ -13,7 +13,9 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <GoogleOAuthProvider clientId="325447167009-qu6e4ebg820ld95ckks2i68hvnpvksk2.apps.googleusercontent.com"><AppWrapper /></GoogleOAuthProvider>
+        <GoogleOAuthProvider clientId="325447167009-qu6e4ebg820ld95ckks2i68hvnpvksk2.apps.googleusercontent.com">
+          <AppWrapper />
+        </GoogleOAuthProvider>
       </div>
 
     </Router >
