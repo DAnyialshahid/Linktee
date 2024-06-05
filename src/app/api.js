@@ -5,8 +5,7 @@ const instance = axios.create({
     withCredentials: true,
     withXSRFToken: true,
     headers: {
-        'Accept': 'application/json',
-        // "X-CSRF-TOKEN": "asdasd"
+        'Accept': 'application/json'
     }
 })
 
