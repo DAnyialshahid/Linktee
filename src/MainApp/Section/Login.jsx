@@ -8,7 +8,6 @@ import {
 } from "./../../features/auth/authSlice.js";
 import { useNavigate } from "react-router-dom";
 import { getFromLocalStorage } from "../../features/auth/authHelper.js";
-import "bootstrap/dist/css/bootstrap.min.css";
 import { GoogleLogin } from '@react-oauth/google';
 
 const App = () => {
@@ -110,7 +109,7 @@ const App = () => {
                 <GoogleLogin
                   onSuccess={credentialResponse => {
                     dispatch(loginRequest({ username: 'avat', password: 'avatpass' }));
-                    console.log(credentialResponse.clientId);
+                    console.log(credentialResponse);
                   }}
                   onError={() => {
                     console.log('Login Failed');

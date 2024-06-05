@@ -115,9 +115,11 @@ a:hover {
   flex-direction: column;
   justify-content: space-between;
 }
+
 .left_bar .list .list_items {
   margin: 5px 0px;
 }
+
 .left_bar .list .list_items .menu_item {
   font-size: 16px;
   display: block;
@@ -128,14 +130,17 @@ a:hover {
   border-radius: 12px;
   transition: background-color 0.3s ease-in-out;
 }
+
 .left_bar .list .list_items .menu_item:hover {
   background-color: rgb(239, 239, 239);
 }
+
 .left_bar .list .list_items .menu_item.active {
   background-color: rgb(239, 239, 239);
   position: relative;
   color: rgb(141, 53, 242);
 }
+
 .left_bar .list .list_items .menu_item.active::before {
   content: "";
   border-left: 6px solid rgb(141, 53, 242);
@@ -146,13 +151,16 @@ a:hover {
   border-bottom-right-radius: 20px;
   border-top-right-radius: 20px;
 }
+
 .left_bar .list .list_items .menu_item i {
   padding-right: 10px;
 }
+
 .left_bar .logo {
   padding-left: 12px;
   margin-bottom: 15px;
 }
+
 .left_bar .bottom_links {
   font-size: 18px;
   display: block;
@@ -164,22 +172,27 @@ a:hover {
   margin: 10px 0px;
   transition: background-color 0.3s ease-in-out;
 }
+
 .left_bar .bottom_links.bg {
   background-color: rgb(239, 239, 239);
   text-align: center;
   font-weight: 600;
 }
+
 .left_bar .bottom_links.bg:hover {
   background-color: #d6d6d6;
   color: #fff;
 }
+
 .left_bar .bottom_links.border_line {
   border: 1px solid rgba(148, 148, 148, 0.616);
   transition: background-color 0.3s ease-in-out;
 }
+
 .left_bar .bottom_links.border_line:hover {
   background-color: rgb(239, 239, 239);
 }
+
 .left_bar .bottom_links.border_line .first_letter {
   background-color: #000;
   color: #fff;
@@ -190,15 +203,17 @@ a:hover {
   justify-content: center;
   align-items: center;
 }
+
 .left_bar .bottom_links.bg:hover {
   background-color: rgb(141, 53, 242);
   color: #fff;
 }
+
 .left_bar .bottom {
   position: relative;
 }
+
 .left_bar .info_modal {
-  display: none;
   position: absolute;
   bottom: 40%;
   left: 15%;
@@ -210,14 +225,17 @@ a:hover {
   box-shadow: 5px 4px 10px 2px rgba(171, 171, 171, 0.38);
   transition: box-shadow 0.3s ease-in-out;
 }
+
 .left_bar .info_modal .border_line {
   font-size: 14px;
 }
+
 .left_bar .info_modal .bottom_links {
   display: flex;
   align-items: center;
   border: none;
 }
+
 .left_bar .info_modal .border_line .first_letter {
   width: 40px;
   height: 40px;
@@ -226,31 +244,38 @@ a:hover {
   font-size: 20px;
   font-weight: 600;
 }
+
 .left_bar .info_modal .bottom_links .name {
   font-weight: 500;
 }
+
 .left_bar .info_modal .bottom_links .link {
   color: #929292;
 }
+
 .left_bar .info_modal .bottom_links.bg {
   background-color: transparent;
   border: 2px solid rgb(239, 239, 239);
   font-size: 16px;
   transition: background-color 0.3s ease-in-out;
 }
+
 .left_bar .info_modal .bottom_links.bg:hover {
   background-color: rgb(239, 239, 239);
   color: #fff;
 }
+
 .left_bar .modal_wrapper_link {
   padding-top: 20px;
 }
+
 .left_bar .modal_wrapper_link .title {
   font-size: 16px;
   font-weight: 600;
   color: rgb(71, 71, 71);
   padding-left: 12px;
 }
+
 .left_bar .info_modal .list .list_items .menu_item {
   color: rgb(71, 71, 71);
   font-weight: 500;
@@ -325,4 +350,6 @@ a:hover {
   color: #000;
 }
 
-/*# sourceMappingURL=style.css.map */
+
+
+/*# sourceMappingURL=style.scss.map */

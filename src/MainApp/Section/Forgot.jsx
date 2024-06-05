@@ -8,7 +8,6 @@ import {
 } from "../../features/auth/authSlice.js";
 import { useNavigate } from "react-router-dom";
 import { getFromLocalStorage } from "../../features/auth/authHelper.js";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
   const navigate = useNavigate();
