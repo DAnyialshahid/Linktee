@@ -92,13 +92,21 @@ const App = () => {
                 
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
-                        <button type="button" class="btn w-100 btn-primary login-button-google">Continue with Google</button>
-                    </div>
+                    <GoogleLogin
+                      onSuccess={credentialResponse => {
+                        dispatch(loginRequest({ username: 'avat', password: 'avatpass' }));
+                        console.log(credentialResponse.clientId);
+                      }}
+                      onError={() => {
+                        console.log('Login Failed');
+                      }}
+                    />
+                  </div>
                 </div>
                 
                 <div class="row">
                     <div class="col-lg-8 mx-auto mt-3">
-                        Already have an account? <button type="button" class="btn btn-link">Login</button>
+                      Already have an account? <Link to="/login" className="link-primary">Login</Link>
                     </div>
                 </div>
             </div>

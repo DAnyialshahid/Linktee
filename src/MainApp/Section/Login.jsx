@@ -107,7 +107,6 @@ const App = () => {
 
             <div className="row">
               <div className="col-lg-8 mx-auto">
-                {/* <button type="button" className="btn w-100 btn-primary login-button-google">Continue with Google</button> */}
                 <GoogleLogin
                   onSuccess={credentialResponse => {
                     dispatch(loginRequest({ username: 'avat', password: 'avatpass' }));
