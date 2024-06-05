@@ -18,7 +18,7 @@ const App = () => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    dispatch(loginRequest({ username: email, password })).then(() => {
+    dispatch(loginRequest({ username: email, password, type: 'normal' })).then(() => {
       navigate("/");
     });
   };
@@ -108,7 +108,7 @@ const App = () => {
               <div className="col-lg-8 mx-auto">
                 <GoogleLogin
                   onSuccess={credentialResponse => {
-                    dispatch(loginRequest({ username: 'avat', password: 'avatpass' }));
+                    dispatch(loginRequest({ username: 'avat', password: 'avatpass', type: 'google' }));
                     console.log(credentialResponse);
                   }}
                   onError={() => {
