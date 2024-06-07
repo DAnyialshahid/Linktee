@@ -1,7 +1,8 @@
+// src/features/auth/authSlice.js
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { loginApiRequest, loginFacebookApiRequest, loginGoogleApiRequest } from './authAPI';
-import { useNavigate } from 'react-router-dom'; // Import useHistory hook
+import { loginApiRequest, loginFacebookApiRequest, loginGoogleApiRequest, signUpApiRequest } from './authAPI';
 import { getFromLocalStorage, storeToLocalStorage } from './authHelper';
+
 const initialState = {
   is_login: false,
   user_details: {},
@@ -21,30 +22,32 @@ export const loginRequest = createAsyncThunk(
       case 'facebook':
         response = await loginFacebookApiRequest({ ...data, expiresInMins: 30 });
         break;
-
       default:
         break;
     }
-
     return response.data;
   }
 );
-// Redirect to dashboard after successful login
+
+export const signUp = createAsyncThunk('auth/signUp', async (data, { rejectWithValue }) => {
+  try {
+    const response = await signUpApiRequest(data);
+    return response.data; 
+  } catch (error) {
+    return rejectWithValue(error.response.data); 
+  }
+});
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
-
   reducers: {
     logout: (state, action) => {
       state.is_login = false;
       state.user_details = {};
-      storeToLocalStorage('user', null)
+      storeToLocalStorage('user', null);
       storeToLocalStorage('is_login', false);
-
-      // if(action.payload.cb){
-      //   action.payload.cb();
-      // }
+      localStorage.setItem('token', null);
     },
     logout2: (state) => {
       state.is_login = false;
@@ -59,24 +62,36 @@ export const authSlice = createSlice({
       // state.user_details = {};
     },
   },
-
   extraReducers: (builder) => {
     builder
       .addCase(loginRequest.pending, (state) => {
         state.loading = true;
-        state.is_login = false
+        state.is_login = false;
       })
       .addCase(loginRequest.rejected, (state) => {
         state.loading = false;
-        state.is_login = false
+        state.is_login = false;
       })
       .addCase(loginRequest.fulfilled, (state, action) => {
         state.loading = false;
-        state.is_login = true
+        state.is_login = true;
         state.user_details = action.payload;
-        storeToLocalStorage('user', state.user_details)
-        storeToLocalStorage('is_login', true)
-
+        storeToLocalStorage('user', state.user_details);
+        storeToLocalStorage('is_login', true);
+        localStorage.setItem('token', action.payload.token);
+      })
+      .addCase(signUp.fulfilled, (state, action) => {
+        state.loading = false;
+        state.is_login = true;
+        state.user_details = action.payload;
+        storeToLocalStorage('user', state.user_details);
+        storeToLocalStorage('is_login', true);
+        localStorage.setItem('token', action.payload.token);
+      })
+      .addCase(signUp.rejected, (state, action) => {
+        state.loading = false;
+        state.is_login = false;
+        state.error = action.payload.message
       });
   },
 });
@@ -84,7 +99,5 @@ export const authSlice = createSlice({
 export const { emailVerify, logout, login_via_storage } = authSlice.actions;
 
 export const selectCount = (state) => state.counter.value;
-
-
 
 export default authSlice.reducer;

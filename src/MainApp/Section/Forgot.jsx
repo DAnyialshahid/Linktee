@@ -8,15 +8,7 @@ import { getFromLocalStorage } from "../../features/auth/authHelper.js";
 const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-
-  const handleLogin = (event) => {
-    event.preventDefault();
-    // dispatch(loginRequest({ username: email, password })).then(() => {
-    //   navigate("/");
-    // });
-  };
-
+  
   const isAuthenticated = useSelector((state) => state.auth.is_login);
   useEffect(() => {
     if (getFromLocalStorage("is_login")) {

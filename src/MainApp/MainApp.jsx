@@ -1,10 +1,10 @@
 
 import React, { useState } from "react"
-import "./../styles/home.scss";
 import io from "socket.io-client";
+import "./../styles/home.scss"
 
 const MainApp = () => {
-  // const socket = io("http://localhost:3001", { transports: ['websocket'] });
+  const socket = io("http://localhost:3001", { transports: ['websocket'] });
 
   const [showModal, setShowModal] = useState(false);
   const toggleModal = () => {
@@ -13,7 +13,6 @@ const MainApp = () => {
 
   const [userItems, setUserItems] = useState([{ id: 1, name: "" }]); // Initial state with one user item
 
-  // Function to add a new user item
   const addNewUserItem = () => {
     const newUserItem = { id: userItems.length + 1, name: "" };
     setUserItems([...userItems, newUserItem]);
@@ -25,16 +24,13 @@ const MainApp = () => {
         userItem.id === id ? { ...userItem, name: value } : userItem
       )
     );
-    // socket.emit('updateMobileUI', { id, name: value, userItems });
+    socket.emit('updateMobileUI', { id, name: value, userItems });
   };
 
   const handleDelete = (id) => {
-    // Filter out the user item with the given id
     const updatedUserItems = userItems.filter(userItem => userItem.id !== id);
-    // Update user items on the client-side
     setUserItems(updatedUserItems);
-    // Emit the updated user items to the server (if needed)
-    // socket.emit('updateMobileUI', { userItems: updatedUserItems });
+    socket.emit('updateMobileUI', { userItems: updatedUserItems });
   };
 
   const [adminBarExpanded, setAdminBarExpanded] = useState(true);
@@ -55,44 +51,62 @@ const MainApp = () => {
         <div className={`row ${adminBarExpanded ? '' : 'admin-bar-collapsed'}`}>
           <div className={`col-sm-12 col-md-${adminBarExpanded ? '4' : '1'} col-lg-${adminBarExpanded ? '3' : '1'}`}>
             <div className="left_bar">
-              <div className="d-flex flex-column">
-                <div className="logo">
-                  <i className="fa-solid fa-tree"></i>
-                </div>
-                <div>
-                  <div className="list">
-                    <div className="list_items ">
-                      <a href="#" className="menu_item active">
-                        <i className="fa-solid fa-bars"></i>
-                        {adminBarExpanded ? 'Links' : ''}
+            <div class="d-flex flex-column">
+                        <div class="logo_wrapper">
+                            <div class="logo">
+                                <i class="fa-solid fa-tree"></i>
+                            </div>
+                            <div class="d-flex mobile_upgrade_btns_wrapper">
 
-                      </a>
+                                <div class="mobile_upgrade_btns">
+                                    <i class="fa-solid fa-bolt"></i>
+                                    Upgrade
+                                </div>
+                                <div class="mobile_upgrade_btns">
+                                    <i class="fa-solid fa-share-nodes"></i>
+                                    Share
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="list">
+                                <div class="list_items ">
+                                    <a href="#" class="menu_item active">
+                                        <i class="fa-solid fa-bars"></i>
+                                        <span class="left_bar_labels">
+                                            Links
+                                        </span>
+                                    </a>
+                                </div>
+                                <div class="list_items">
+                                    <a href="#" class="menu_item">
+                                        <i class="fa-solid fa-clone"></i>
+                                        <span class="left_bar_labels">
+                                            Appearance
+                                        </span>
+                                    </a>
+                                </div>
+                                <div class="list_items">
+                                    <a href="#" class="menu_item">
+                                        <i class="fa-solid fa-signal"></i>
+                                        <span class="left_bar_labels">
+                                            Analytics
+                                        </span>
+                                    </a>
+                                </div>
+                                <div class="list_items">
+                                    <a href="#" class="menu_item">
+                                        <i class="fa-solid fa-gear"></i>
+                                        <span class="left_bar_labels">
+                                            Settings
+                                        </span>
+                                    </a>
+                                </div>
+
+
+                            </div>
+                        </div>
                     </div>
-                    <div className="list_items">
-                      <a href="#" className="menu_item">
-                        <i className="fa-solid fa-clone"></i>
-
-                        {adminBarExpanded ? 'Appearance' : ''}
-                      </a>
-                    </div>
-                    <div className="list_items">
-                      <a href="#" className="menu_item">
-                        <i className="fa-solid fa-signal"></i>
-
-                        {adminBarExpanded ? 'Analytics' : ''}
-                      </a>
-                    </div>
-                    <div className="list_items">
-                      <a href="#" className="menu_item">
-                        <i className="fa-solid fa-gear"></i>
-
-                        {adminBarExpanded ? 'Settings' : ''}
-                      </a>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
               <div className="bottom">
                 <a href="#" className="d-block bottom_links bg">
                   <i className="fa-solid fa-bolt"></i>
@@ -239,7 +253,7 @@ const MainApp = () => {
                     </div>
                     <div className="row button-space">
                       <div className="col-sm-12 col-md-3 col-lg-3 p-0">
-                        <button className="btn btn-secondary left-btn">
+                        <button className="btn btn-secondary left-btn" onClick={addNewUserItem}>
                           <svg
                             className="mr-xs"
                             width="16"
@@ -254,7 +268,7 @@ const MainApp = () => {
                               d="M0.5 -0.000244141H0V0.999755L0.5 0.999756L15.4999 0.999775L15.9999 0.999776L15.9999 -0.000224382L15.4999 -0.000225008L0.5 -0.000244141ZM0.500074 3.99976L7.37309e-05 4.49975L0 15.4998L0.5 15.9998H15.5L16 15.4998V4.49977L15.5 3.99977L0.500074 3.99976ZM1 14.9998L1.00007 4.99976L15 4.99977V14.9998H1Z"
                               fill="black"
                             ></path>
-                          </svg>{" "}
+                          </svg>
                           Add header
                         </button>
                       </div>
