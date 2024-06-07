@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { loginApiRequest } from './authAPI';
+import { loginApiRequestNormal, loginApiRequestGoogle, loginApiRequestFacebook } from './authAPI';
 import { useNavigate } from 'react-router-dom'; // Import useHistory hook
 import { getFromLocalStorage, storeToLocalStorage } from './authHelper';
 const initialState = {
@@ -10,8 +10,14 @@ const initialState = {
 export const loginRequest = createAsyncThunk(
   'login',
   async (data) => {
-    console.log(data.type);
-    const response = await loginApiRequest({ ...data, expiresInMins: 30 });
+    var response;
+    if(data.type == "normal"){
+      response = await loginApiRequestNormal({ ...data, expiresInMins: 30 });
+    } else if(data.type == "google"){
+      response = await loginApiRequestGoogle({ ...data, expiresInMins: 30 });
+    }else{
+      response = await loginApiRequestFacebook({ ...data, expiresInMins: 30 });
+    }
     return response.data;
   }
 );
