@@ -351,6 +351,21 @@ a:hover {
   color: #000;
 }
 
+.close_admin_btn{
+  position: absolute;
+  right: -30px;
+  top: 20px;
+  background-color: #8d35f2;
+  padding: 0px 8px;
+  border: none;
+  color: #fff;
+}
 
+.first_col, .second_col {
+  transition: all 0.4s ease;
+}
 
-/*# sourceMappingURL=style.scss.map */
+.left_bar .left_bar_labels{
+  /* display: inline-block; */
+}
+/*# sourceMappingURL=style.css.map */

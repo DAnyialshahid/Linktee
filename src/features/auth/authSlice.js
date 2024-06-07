@@ -10,6 +10,7 @@ const initialState = {
 export const loginRequest = createAsyncThunk(
   'login',
   async (data) => {
+    console.log(data.type);
     const response = await loginApiRequest({ ...data, expiresInMins: 30 });
     return response.data;
   }

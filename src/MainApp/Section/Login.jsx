@@ -9,6 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { getFromLocalStorage } from "../../features/auth/authHelper.js";
 import { GoogleLogin } from '@react-oauth/google';
+import FacebookLogin from 'react-facebook-login';
 
 const App = () => {
   const navigate = useNavigate();
@@ -68,9 +69,9 @@ const App = () => {
                   <input
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    type="text" 
-                    className="form-control" 
-                    id="email" 
+                    type="text"
+                    className="form-control"
+                    id="email"
                     placeholder="Enter your username" />
                 </div>
                 <div className="col-lg-8 mx-auto mt-3">
@@ -106,17 +107,39 @@ const App = () => {
 
             <div className="row">
               <div className="col-lg-8 mx-auto">
-                <GoogleLogin
-                  onSuccess={credentialResponse => {
-                    dispatch(loginRequest({ username: 'avat', password: 'avatpass', type: 'google' }));
-                    console.log(credentialResponse);
-                  }}
-                  onError={() => {
-                    console.log('Login Failed');
-                  }}
-                />
+                <div className="d-grid gap-2">
+                  <GoogleLogin
+                    className="btn btn-primary"
+                    onSuccess={credentialResponse => {
+                      dispatch(loginRequest({ username: 'avat', password: 'avatpass', type: 'google' }));
+                      console.log(credentialResponse);
+                    }}
+                    onError={() => {
+                      console.log('Login Failed');
+                    }}
+                  >
+                    Google Login
+                  </GoogleLogin>
+                </div>
               </div>
             </div>
+            <div className="row">
+              <div className="col-lg-8 mx-auto">
+                <div className="d-grid gap-2">
+                  {/* <FacebookLogin
+                    className="btn btn-primary"
+                    appId="1088597931155576"
+                    autoLoad={true}
+                    fields="name,email,picture"
+                    callback={responseFacebook}
+                  >
+                    Facebook Login
+                  </FacebookLogin> */}
+                </div>
+              </div>
+            </div>
+
+
 
             <div className="row">
               <div className="col-lg-8 mx-auto mt-3">
