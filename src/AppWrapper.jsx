@@ -12,7 +12,12 @@ import Login from "./MainApp/Section/Login";
 import Logout from "./MainApp/Section/Logout";
 import Forgot from "./MainApp/Section/Forgot";
 import Signup from "./MainApp/Section/Signup";
+import Themes from "./MainApp/Section/Themes";
+import Platforms from "./MainApp/Section/Platforms";
+import Username from "./MainApp/Section/Username";
+import Home from "./MainApp/Home";
 import PrivateRoute from "./Routes/PrivateRoute";
+import Packages from "./MainApp/Section/Packages";
 
 function AppWrapper() {
   return (
@@ -21,7 +26,12 @@ function AppWrapper() {
       <Route path="/login" element={<Login />} />
       <Route path="/logout" element={<Logout />} />
       <Route path="/forgot" element={<Forgot />} />
-      <Route path="/Signup" element={<Signup />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/username" element={<Username />} />
+      <Route path="/packages" element={<Packages />} />
+      <Route path="/themes" element={<Themes />} />
+      <Route path="/platforms" element={<Platforms />} />
+      <Route path="/home" element={<Home />} />
     </Routes>
   );
 }

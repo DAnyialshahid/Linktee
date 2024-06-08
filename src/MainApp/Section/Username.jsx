@@ -1,47 +1,67 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { signUp } from "../../features/auth/authSlice.js";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { validateUsername, selectUsername } from "../../features/auth/authSlice.js";
 import "./signup.css"; 
+import { Link, useNavigate } from "react-router-dom";
 
-const Signup = () => {
+const Username = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { usernameValidation } = useSelector((state) => state.auth);
 
-  const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
+  const [username, setUsername] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [usernameMessage, setUsernameMessage] = useState("");
+  const [usernameAvailable, setUsernameAvailable] = useState(true);
 
-  const handleSignUp = (event) => {
+  useEffect(() => {
+    // Check username availability when the length of username is greater than 5 characters
+    if (username.length > 5) {
+      dispatch(validateUsername(username))
+        .then((response) => {
+          if (response.payload.success) {
+            setUsernameAvailable(true);
+            setUsernameError("");
+            setUsernameMessage(response.payload.message);
+          } else {
+            setUsernameMessage("");
+            setUsernameAvailable(false);
+            setUsernameError(response.payload.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+  }, [username, dispatch]);
+
+  const handleCreateUsername = (event) => {
     event.preventDefault();
-    dispatch(signUp({ email, first_name: firstName, last_name: lastName, password, password_confirmation: passwordConfirmation }))
-      .then((response) => {
-        if (response.type === "auth/signUp/fulfilled") {
-          toast.success("Account created successfully! Redirecting to home page...");
-          setTimeout(() => {
-            navigate("/username");
-          }, 2000);
-        } else {
-          toast.error(`Error: ${response.payload.message}`);
-        }
-      })
-      .catch((error) => {
-        toast.error(`Error: ${error.message}`);
-      });
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const togglePasswordConfirmationVisibility = () => {
-    setShowPasswordConfirmation(!showPasswordConfirmation);
+    if (username.length < 5) {
+      setUsernameError("Username must be at least 5 characters long");
+    } else if (!usernameAvailable) {
+      setUsernameError(usernameError);
+    } else {
+      setUsernameError("");
+      // Dispatch the validateUsername action creator to call the API
+      dispatch(selectUsername(username))
+        .then((response) => {
+          if (response.payload.success) {
+            toast.success("Username is available! Proceed to next step...");
+            setTimeout(() => {
+              navigate("/packages");
+            }, 2000);
+          } else {
+            toast.error("Username is not available. Please choose a different one.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          toast.error("An error occurred while creating the username.");
+        });
+    }
   };
 
   return (
@@ -70,90 +90,37 @@ const Signup = () => {
               </svg>
             </div>
             <div className="text-center mt-5">
-              <h1 className="text-black text-bold">Join Linktree!</h1>
-              <p className="text-black">Sign up for free!</p>
+              <h1 className="text-black text-bold">Create Username</h1>
+              <p className="text-black">Choose a unique username!</p>
             </div>
 
-            <form onSubmit={handleSignUp} className="mt-4">
-              <div className="mb-3">
-                <input
-                  type="email"
-                  className="form-control"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
+            <form onSubmit={handleCreateUsername} className="mt-4">
               <div className="mb-3">
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="First Name"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   required
                 />
+                
+                {usernameError && <p className="text-danger">{usernameError}</p>}
+                {username.length > 5 && (
+                  <div>
+                    {usernameValidation.loading && <p>Checking username...</p>}
+                    {usernameMessage && <p className="text-success">{usernameMessage}</p>}
+                  </div>
+                )}
+
               </div>
               <div className="mb-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Last Name"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <div className="input-group">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    className="form-control"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                  <button className="btn btn-outline-secondary" type="button" onClick={togglePasswordVisibility}>
-                    {showPassword ? "Hide" : "Show"}
-                  </button>
-                </div>
-              </div>
-              <div className="mb-3">
-                <div className="input-group">
-                  <input
-                    type={showPasswordConfirmation ? "text" : "password"}
-                    className="form-control"
-                    placeholder="Confirm Password"
-                    value={passwordConfirmation}
-                    onChange={(e) => setPasswordConfirmation(e.target.value)}
-                    required
-                  />
-                  <button className="btn btn-outline-secondary" type="button" onClick={togglePasswordConfirmationVisibility}>
-                    {showPasswordConfirmation ? "Hide" : "Show"}
-                  </button>
-                </div>
-              </div>
-              <div className="d-flex justify-content-between">
-                <button type="submit" className="btn btn-primary">
-                  Create Account
+                <button type="submit" className="btn w-100 btn-primary">
+                  Create Username
                 </button>
               </div>
             </form>
 
-            <div className="text-center mt-3">
-              <p>OR</p>
-            </div>
-
-            <div className="text-center mt-3">
-              <p>
-                Already have an account?{" "}
-                <Link to="/login" className="link-primary">
-                  Login
-                </Link>
-              </p>
-            </div>
           </div>
           <div className="col-12 col-md-5 signup-right">
             <img
@@ -169,4 +136,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Username;

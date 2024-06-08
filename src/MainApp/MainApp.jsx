@@ -2,6 +2,7 @@
 import React, { useState } from "react"
 import io from "socket.io-client";
 import "./../styles/home.scss"
+import { getFromLocalStorage } from './../features/auth/authHelper';
 
 const MainApp = () => {
   const socket = io("http://localhost:3001", { transports: ['websocket'] });
@@ -51,53 +52,53 @@ const MainApp = () => {
         <div className={`row ${adminBarExpanded ? '' : 'admin-bar-collapsed'}`}>
           <div className={`col-sm-12 col-md-${adminBarExpanded ? '4' : '1'} col-lg-${adminBarExpanded ? '3' : '1'}`}>
             <div className="left_bar">
-            <div class="d-flex flex-column">
-                        <div class="logo_wrapper">
-                            <div class="logo">
-                                <i class="fa-solid fa-tree"></i>
+            <div className="d-flex flex-column">
+                        <div className="logo_wrapper">
+                            <div className="logo">
+                                <i className="fa-solid fa-tree"></i>
                             </div>
-                            <div class="d-flex mobile_upgrade_btns_wrapper">
+                            <div className="d-flex mobile_upgrade_btns_wrapper">
 
-                                <div class="mobile_upgrade_btns">
-                                    <i class="fa-solid fa-bolt"></i>
+                                <div className="mobile_upgrade_btns">
+                                    <i className="fa-solid fa-bolt"></i>
                                     Upgrade
                                 </div>
-                                <div class="mobile_upgrade_btns">
-                                    <i class="fa-solid fa-share-nodes"></i>
+                                <div className="mobile_upgrade_btns">
+                                    <i className="fa-solid fa-share-nodes"></i>
                                     Share
                                 </div>
                             </div>
                         </div>
                         <div>
-                            <div class="list">
-                                <div class="list_items ">
-                                    <a href="#" class="menu_item active">
-                                        <i class="fa-solid fa-bars"></i>
-                                        <span class="left_bar_labels">
+                            <div className="list">
+                                <div className="list_items ">
+                                    <a href="#" className="menu_item active">
+                                        <i className="fa-solid fa-bars"></i>
+                                        <span className="left_bar_labels">
                                             Links
                                         </span>
                                     </a>
                                 </div>
-                                <div class="list_items">
-                                    <a href="#" class="menu_item">
-                                        <i class="fa-solid fa-clone"></i>
-                                        <span class="left_bar_labels">
+                                <div className="list_items">
+                                    <a href="#" className="menu_item">
+                                        <i className="fa-solid fa-clone"></i>
+                                        <span className="left_bar_labels">
                                             Appearance
                                         </span>
                                     </a>
                                 </div>
-                                <div class="list_items">
-                                    <a href="#" class="menu_item">
-                                        <i class="fa-solid fa-signal"></i>
-                                        <span class="left_bar_labels">
+                                <div className="list_items">
+                                    <a href="#" className="menu_item">
+                                        <i className="fa-solid fa-signal"></i>
+                                        <span className="left_bar_labels">
                                             Analytics
                                         </span>
                                     </a>
                                 </div>
-                                <div class="list_items">
-                                    <a href="#" class="menu_item">
-                                        <i class="fa-solid fa-gear"></i>
-                                        <span class="left_bar_labels">
+                                <div className="list_items">
+                                    <a href="#" className="menu_item">
+                                        <i className="fa-solid fa-gear"></i>
+                                        <span className="left_bar_labels">
                                             Settings
                                         </span>
                                     </a>
@@ -116,7 +117,7 @@ const MainApp = () => {
                   <span className="first_letter">A</span> &nbsp;
                   <span>
 
-                    {adminBarExpanded ? '@arshadiqbal' : ''}
+                    {adminBarExpanded ? getFromLocalStorage('user').name : ''}
                   </span>
                 </a>
                 {showModal && (
@@ -125,9 +126,9 @@ const MainApp = () => {
                       <a href="#" className="bottom_links border_line">
                         <span className="first_letter">A</span>
                         <div>
-                          <span className="name">@arshadiqbal</span>
+                          <span className="name">@{getFromLocalStorage('user').name}</span>
                           <br />
-                          <span className="link">linktr.ee/arshadiqbal</span>
+                          <span className="link">linktr.ee/{getFromLocalStorage('user').name}</span>
                         </div>
 
                       </a>
@@ -197,7 +198,7 @@ const MainApp = () => {
           <div className="col-sm-12 col-md-4 col-lg-6">
             <div className="center_bar">
               <div className="alert alert-primary" role="alert">
-                <span>Your linktree is live: </span>
+                <span>Your linktree is live: </span> linktr.ee/{getFromLocalStorage('user').name}
                 <button className="btn btn-secondary">Copy your linktree URL</button>
               </div>
               <div className="tabs">

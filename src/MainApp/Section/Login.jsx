@@ -9,7 +9,9 @@ import { useNavigate } from "react-router-dom";
 import { getFromLocalStorage } from "../../features/auth/authHelper.js";
 import { GoogleLogin } from "@react-oauth/google";
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import "./login.css"; // Import your custom CSS file
+import "./login.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const navigate = useNavigate();
@@ -19,19 +21,55 @@ const App = () => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    dispatch(loginRequest({ type: "common", email, password })).then((response) => {
-      navigate("/");
+
+    dispatch(loginRequest({ type: "common", email, password }))
+    .then((response) => {
+      if (response.type == "login/fulfilled") {
+        toast.success("Successfully Logged in! Redirecting to home page...");
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      } else {
+        toast.error(`Error: ${response.payload.message}`);
+      }
+    })
+    .catch((error) => {
+      toast.error(`Error: ${error.message}`);
     });
   };
 
   const responseFacebook = (credentialResponse) => {
-    dispatch(loginRequest({ type: "facebook", ...credentialResponse }));
-    console.log(credentialResponse);
+    dispatch(loginRequest({ type: "facebook", ...credentialResponse }))
+    .then((response) => {
+      if (response.type == "login/fulfilled") {
+        toast.success("Successfully Logged in! Redirecting to home page...");
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      } else {
+        toast.error(`Error: ${response.payload.message}`);
+      }
+    })
+    .catch((error) => {
+      toast.error(`Error: ${error.message}`);
+    });
   };
 
   const handleGoogleLogin = (credentialResponse) => {
-    dispatch(loginRequest({ type: "google", ...credentialResponse }));
-    console.log(credentialResponse);
+    dispatch(loginRequest({ type: "google", ...credentialResponse }))
+    .then((response) => {
+      if (response.type == "login/fulfilled") {
+        toast.success("Successfully Logged in! Redirecting to home page...");
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      } else {
+        toast.error(`Error: ${response.payload.message}`);
+      }
+    })
+    .catch((error) => {
+      toast.error(`Error: ${error.message}`);
+    });
   };
 
   const isAuthenticated = useSelector((state) => state.auth.is_login);
