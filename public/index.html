@@ -21,4 +21,24 @@
     <div id="root"></div>
   </body>
   
+  <script>
+    function rotate(event) {
+        var x = event.clientX;
+        var y = event.clientY;
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var midpointX = w / 2;
+        var midpointY = h / 2;
+        var posX = x - midpointX;
+        var posY = y - midpointY;
+        var valX = (posX / midpointX) * 10;
+        var valY = (posY / midpointY) * 10;
+        var logo = document.getElementById("ex1-layer");
+        // logo.style.transform = "perspective(550px) rotateY(" + valX + "deg) rotateX(" + (-valY) + "deg)";
+    }
+
+    document.addEventListener("mousemove", function(event) {
+        rotate(event);
+    }, false);
+</script>
 </html>
