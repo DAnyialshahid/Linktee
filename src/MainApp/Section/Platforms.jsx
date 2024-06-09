@@ -79,10 +79,10 @@ const Platforms = () => {
             ))
           )}
         </div>
-        <div className="row mt-4">
-          <div className="col text-center ">
+        <div className="row justify-content-center">
+          <div className="col-md-8 mb-3 text-center ">
             <button
-              className="btn btn-primary w-50"
+              className="btn btn-primary w-100"
               onClick={handleNextClick}
               disabled={Object.keys(selectedPlatform).length !== fetchedPlatforms.slice(0, 4).length}
             >

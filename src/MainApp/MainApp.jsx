@@ -367,7 +367,7 @@ const MainApp = () => {
                       </div>
                     </div>
                     <div className="fallback-img">
-                      <img src="images/fallback-image.jpg" />
+                      <img src="public/images/fallback-image.jpg" />
                     </div>
                   </li>
                   <li data-content="tabs2" className={activeTab === "tabs2" ? "actived" : ""}>

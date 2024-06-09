@@ -1,11 +1,4 @@
 /* Full-size background color for the entire body */
-body {
-  background-color: rgb(37, 79, 26);
-  color: #fff; /* Ensure all text is readable on the dark background */
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-}
 
 /* Container for the themes section */
 .themes-section {

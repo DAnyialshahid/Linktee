@@ -79,7 +79,7 @@ const Packages = () => {
                     </ul>
                     <div className="d-grid mt-auto">
                       <button 
-                        className="btn btn-primary btn-block m-4" 
+                        className="btn btn-primary btn-block" 
                         onClick={() => handleSelectPackage(pkg.id, 'monthly')}
                       >
                         Select Plan

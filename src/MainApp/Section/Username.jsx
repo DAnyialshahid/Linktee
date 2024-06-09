@@ -29,6 +29,8 @@ const CreateUsername = () => {
 
   const validateUsernames = React.useMemo(() => 
     _.debounce((username) => {
+      
+      setLoading(true);
       if (username.length >= 5) {
         dispatch(validateUsername(username))
           .then((response) => {
@@ -41,14 +43,17 @@ const CreateUsername = () => {
               setUsernameAvailable(false);
               setUsernameError("Username is not available. Please choose a different one.");
             }
+            setLoading(false);
           })
           .catch((error) => {
+            setLoading(false);
             setUsernameMessage("");
             console.error("Error:", error);
             setUsernameAvailable(false);
             setUsernameError("An error occurred while checking username availability.");
           });
       } else {
+        setLoading(false);
         setUsernameMessage("");
         setUsernameAvailable(false);
         setUsernameError("Username must be at least 5 characters long");
@@ -67,6 +72,7 @@ const CreateUsername = () => {
     if (!loading) {
       setLoading(true);
       if (username.length < 5) {
+        setLoading(false);
         setUsernameMessage("");
         setUsernameError("Username must be at least 5 characters long");
       } else {
@@ -86,15 +92,16 @@ const CreateUsername = () => {
                 setUsernameAvailable(false);
                 setUsernameError("Username is not available. Please choose a different one.");
               }
+              setLoading(false);
             })
             .catch((error) => {
+              setLoading(false);
               setUsernameMessage("");
               console.error("Error:", error);
               setUsernameAvailable(false);
               setUsernameError("An error occurred while checking username availability.");
             });
       }
-      setLoading(false);
     }
   };
 

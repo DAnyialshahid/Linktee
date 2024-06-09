@@ -54,8 +54,9 @@ const Themes = () => {
 
   return (
     <section className="themes-section">
-      <div className="container">
-        <h2 className="text-center mb-4">Select Your Theme</h2>
+      <div className="container">  
+        <h2 className="text-center mb-4 display-4 text-white font-weight-bold">Select Your Theme</h2>
+
         <div className="row justify-content-center">
           {loading ? (
             <p>Loading...</p>
