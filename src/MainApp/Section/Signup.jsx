@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { signUp } from "../../features/auth/authSlice.js";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import "./signup.css"; 
+import "./signup.css";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -17,23 +17,46 @@ const Signup = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+
+  const validatePassword = (password) => {
+    const minLength = 8;
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    if (password.length < minLength || !hasUpperCase || !hasLowerCase || !hasSpecialChar) {
+      setPasswordError("Password must be at least 8 characters, contain an uppercase letter, a lowercase letter, and a special character.");
+      return false;
+    }
+
+    setPasswordError("");
+    return true;
+  };
 
   const handleSignUp = (event) => {
     event.preventDefault();
-    dispatch(signUp({ email, first_name: firstName, last_name: lastName, password, password_confirmation: passwordConfirmation }))
-      .then((response) => {
-        if (response.type === "auth/signUp/fulfilled") {
-          toast.success("Account created successfully! Redirecting to home page...");
-          setTimeout(() => {
-            navigate("/username");
-          }, 2000);
-        } else {
-          toast.error(`Error: ${response.payload.message}`);
-        }
-      })
-      .catch((error) => {
-        toast.error(`Error: ${error.message}`);
-      });
+    if (!validatePassword(password)) return;
+    if (!loading) {
+      setLoading(true);
+      dispatch(signUp({ email, first_name: firstName, last_name: lastName, password, password_confirmation: passwordConfirmation }))
+        .then((response) => {
+          setLoading(false);
+          if (response.type === "auth/signUp/fulfilled") {
+            toast.success("Account created successfully! Redirecting to home page...");
+            setTimeout(() => {
+              navigate("/username");
+            }, 2000);
+          } else {
+            toast.error(`Error: ${response.payload.message}`);
+          }
+        })
+        .catch((error) => {
+          toast.error(`Error: ${error.message}`);
+        });
+
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -50,7 +73,7 @@ const Signup = () => {
         <div className="row">
           <div className="col-12 col-md-7 signup-left">
             <div className="logo">
-            <svg
+              <svg
                 height="80%"
                 viewBox="0 0 80 17"
                 fill="none"
@@ -112,32 +135,22 @@ const Signup = () => {
                     className="form-control"
                     placeholder="Password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setPasswordConfirmation(e.target.value);
+                    }}
                     required
                   />
                   <button className="btn btn-outline-secondary" type="button" onClick={togglePasswordVisibility}>
                     {showPassword ? "Hide" : "Show"}
                   </button>
                 </div>
-              </div>
-              <div className="mb-3">
-                <div className="input-group">
-                  <input
-                    type={showPasswordConfirmation ? "text" : "password"}
-                    className="form-control"
-                    placeholder="Confirm Password"
-                    value={passwordConfirmation}
-                    onChange={(e) => setPasswordConfirmation(e.target.value)}
-                    required
-                  />
-                  <button className="btn btn-outline-secondary" type="button" onClick={togglePasswordConfirmationVisibility}>
-                    {showPasswordConfirmation ? "Hide" : "Show"}
-                  </button>
-                </div>
+                {passwordError && <small className="text-danger">{passwordError}</small>}
+               
               </div>
               <div className="d-flex justify-content-between">
-                <button type="submit" className="btn btn-primary">
-                  Create Account
+                <button type="submit" className="btn btn-primary w-100">
+                  {loading ? "Creating Account..." : "Create Account"}
                 </button>
               </div>
             </form>

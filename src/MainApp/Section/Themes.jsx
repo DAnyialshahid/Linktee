@@ -39,10 +39,18 @@ const Themes = () => {
     }
   };
 
+  const renderCategories = (categories) => {
+    const uniqueCategories = [...new Set(categories.map(category => category.name))];
+    return uniqueCategories.map((category, index) => (
+      <span key={index} className="badge bg-secondary me-1">{category}</span>
+    ));
+  };
+
   return (
     <section className="themes-section">
       <div className="container">
-        <div className="row">
+        <h2 className="text-center mb-4">Select Your Theme</h2>
+        <div className="row justify-content-center">
           {loading ? (
             <p>Loading...</p>
           ) : error ? (
@@ -58,6 +66,7 @@ const Themes = () => {
                     <div className="card-body">
                       <h5 className="card-title">{theme.name}</h5>
                       <p className="card-text">{parsedDesc.short_desc}</p>
+                      <div className="mb-2">{renderCategories(theme.categories)}</div>
                       <ul className="list-group">
                         {parsedDesc.bullets.map((bullet, index) => (
                           <li key={index} className="list-group-item">{bullet}</li>
