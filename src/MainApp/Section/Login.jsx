@@ -158,7 +158,7 @@ const App = () => {
               </div>
             </form>
 
-            <div className="text-center mt-3">
+            <div className="text-center text-black mt-3">
               <p>OR</p>
             </div>
 
@@ -182,7 +182,7 @@ const App = () => {
               />
             </div>
 
-            <div className="text-center mt-3">
+            <div className="text-center text-black mt-3">
               <p>
                 Don't have an account?{" "}
                 <Link to="/signup" className="link-primary">

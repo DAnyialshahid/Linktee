@@ -4,6 +4,8 @@ import { fetchPlatforms, selectPlatform } from "../../features/auth/authSlice";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
+import './platform.css';
+
 const FormData = require('form-data');
 
 const Platforms = () => {
@@ -49,7 +51,7 @@ const Platforms = () => {
   return (
     <section className="platforms-section py-5">
       <div className="container">
-        <h2 className="text-center mb-4">Select Your Platforms</h2>
+        <h2 className="text-center mb-4 text-white">Select Your Platforms</h2>
         <div className="row justify-content-center">
           {loading ? (
             <p>Loading...</p>
@@ -77,10 +79,10 @@ const Platforms = () => {
             ))
           )}
         </div>
-        <div className="row mt-4">
-          <div className="col text-center ">
+        <div className="row justify-content-center">
+          <div className="col-md-8 mb-3 text-center ">
             <button
-              className="btn btn-primary w-50"
+              className="btn btn-primary w-100"
               onClick={handleNextClick}
               disabled={Object.keys(selectedPlatform).length !== fetchedPlatforms.slice(0, 4).length}
             >
