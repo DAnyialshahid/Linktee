@@ -4,6 +4,8 @@ import { fetchPlatforms, selectPlatform } from "../../features/auth/authSlice";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
+import './platform.css';
+
 const FormData = require('form-data');
 
 const Platforms = () => {
@@ -49,7 +51,7 @@ const Platforms = () => {
   return (
     <section className="platforms-section py-5">
       <div className="container">
-        <h2 className="text-center mb-4">Select Your Platforms</h2>
+        <h2 className="text-center mb-4 text-white">Select Your Platforms</h2>
         <div className="row justify-content-center">
           {loading ? (
             <p>Loading...</p>

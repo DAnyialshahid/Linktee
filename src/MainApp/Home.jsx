@@ -13,7 +13,6 @@ import { getFromLocalStorage } from "../features/auth/authHelper.js";
 const MainApp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   
   const isAuthenticated = useSelector((state) => state.auth.is_login);
 

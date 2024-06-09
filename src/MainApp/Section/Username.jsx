@@ -1,9 +1,14 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { selectUsername } from "../../features/auth/authSlice.js";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getFromLocalStorage } from "../../features/auth/authHelper.js";
+import {
+  login_via_storage,
+  selectUsername,
+  validateUsername,
+} from "../../features/auth/authSlice.js";
 import _ from 'lodash';
 
 const CreateUsername = () => {
@@ -16,36 +21,43 @@ const CreateUsername = () => {
   const [usernameAvailable, setUsernameAvailable] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const validateUsername = useCallback(
+  useEffect(() => {
+    if (!getFromLocalStorage("is_login")) {
+      navigate("/signup");
+    }
+  }, [navigate]);
+
+  const validateUsernames = React.useMemo(() => 
     _.debounce((username) => {
       if (username.length >= 5) {
-        dispatch(selectUsername(username))
+        dispatch(validateUsername(username))
           .then((response) => {
             if (response.payload.success) {
               setUsernameAvailable(true);
               setUsernameError("");
               setUsernameMessage(response.payload.message);
             } else {
+              setUsernameMessage("");
               setUsernameAvailable(false);
               setUsernameError("Username is not available. Please choose a different one.");
             }
           })
           .catch((error) => {
+            setUsernameMessage("");
             console.error("Error:", error);
             setUsernameAvailable(false);
             setUsernameError("An error occurred while checking username availability.");
           });
       } else {
+        setUsernameMessage("");
         setUsernameAvailable(false);
         setUsernameError("Username must be at least 5 characters long");
       }
-    }, 300),
-    [dispatch]
-  );
+    }, 300), [dispatch]);
 
   useEffect(() => {
     if (username) {
-      validateUsername(username);
+      validateUsernames(username);
     }
   }, [username, validateUsername]);
 
@@ -55,6 +67,7 @@ const CreateUsername = () => {
     if (!loading) {
       setLoading(true);
       if (username.length < 5) {
+        setUsernameMessage("");
         setUsernameError("Username must be at least 5 characters long");
       } else {
         setUsernameError("");
@@ -69,11 +82,13 @@ const CreateUsername = () => {
                   navigate("/packages");
                 }, 2000);
               } else {
+                setUsernameMessage("");
                 setUsernameAvailable(false);
                 setUsernameError("Username is not available. Please choose a different one.");
               }
             })
             .catch((error) => {
+              setUsernameMessage("");
               console.error("Error:", error);
               setUsernameAvailable(false);
               setUsernameError("An error occurred while checking username availability.");
@@ -123,6 +138,8 @@ const CreateUsername = () => {
                   required
                 />
                 {usernameError && <small className="text-danger">{usernameError}</small>}
+                {usernameMessage && <small className="text-success">{usernameMessage}</small>}
+                
               </div>
               <button type="submit" className="btn btn-primary w-100">
                 
